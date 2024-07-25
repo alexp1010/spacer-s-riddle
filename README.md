@@ -1,2 +1,2 @@
 # spacer-s-riddle
-Game adventure set in space ship
+Game adventure set in a space ship
