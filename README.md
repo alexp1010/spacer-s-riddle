@@ -1,4 +1,4 @@
-# spacer-s-riddle
+# Spacer's Riddle
 A game adventure set in a space ship
 
 The game is free.
