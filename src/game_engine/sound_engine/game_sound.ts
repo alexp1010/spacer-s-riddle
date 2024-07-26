@@ -2,8 +2,8 @@ import { Sound } from "./sound";
 
 
 export class GameSound {
-    gameMusic: Sound;
-    isInitialized: boolean = false;
+    public gameMusic: Sound;
+    public isInitialized: boolean = false;
     
     constructor() { }
 

@@ -22,14 +22,14 @@ export class Game {
     startingScreen: StartingScreen;
     isStartingScreenShown: boolean;
 
-    gameSound: GameSound;
-    document: Document;
+    public gameSound: GameSound;
+    private document: Document;
 
     constructor(document: Document) {
         this.document = document;
     }
 
-    init() {
+    public init(): void {
         this.gameSound = new GameSound();
         this.gameSound.loadBackgroundMusic("./sound/superspacy-atmosphere-106826.mp3", this.document);
 
@@ -81,7 +81,7 @@ export class Game {
         this.canvas.addEventListener("click", this.handleMouseClick.bind(this));
     }
 
-    handleMouseClick(this: Game, e: any) {
+    private handleMouseClick(this: Game, e: any): void {
         if (!this.gameSound.isInitialized) {
             this.gameSound.isInitialized = true;
             this.gameSound.playBackgroundMusic();
@@ -108,7 +108,7 @@ export class Game {
         this.canvas.addEventListener("mousemove", this.handleMouseMove.bind(this));
     }
 
-    handleMouseMove(e: any) {
+    private handleMouseMove(e: any): void {
         var mouseX = parseInt(e.clientX);
         var mouseY = parseInt(e.clientY);
         var canvasMouseX = mouseX - this.gameZone.left;
@@ -131,7 +131,7 @@ export class Game {
         }
     }
 
-    isMouseInsideMenuIcon(mouseX: number, mouseY: number) {
+    private isMouseInsideMenuIcon(mouseX: number, mouseY: number): boolean {
         return (
             mouseX > 10 &&
             mouseX < this.menuIcon.width + 10 &&

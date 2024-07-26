@@ -2,15 +2,15 @@ import { Game } from "../game";
 
 export class MainMenu {
 
-    private game;
+    private game: Game;
     // gameZone;
-    currentMenuScreen;
-    menuLeftStartingX;
-    menuTopStartingY;
-    menuCenterX;
-    menuCenterY;
-    commandSpace;
-    menuTopMargin;
+    private currentMenuScreen;
+    private menuLeftStartingX: number;
+    private menuTopStartingY: number;
+    private menuCenterX: number;
+    private menuCenterY: number;
+    private commandSpace: number;
+    private menuTopMargin: number;
     returnCommandPositionY;
     returnCommandWidth;
     returnCommandHeight;
@@ -81,7 +81,7 @@ export class MainMenu {
         this.volumeUpButtonHeight = 20;
     }
 
-    handleMouseClickEvents(canvasMouseX: number, canvasMouseY: number) {
+    public handleMouseClickEvents(canvasMouseX: number, canvasMouseY: number): void {
         var menuMouseX = canvasMouseX - this.menuX;
         var menuMouseY = canvasMouseY - this.menuY;
 
@@ -138,7 +138,7 @@ export class MainMenu {
         }
     }
 
-    handleMouseMoveEvents(canvasMouseX: number, canvasMouseY: number) {
+    public handleMouseMoveEvents(canvasMouseX: number, canvasMouseY: number): void {
         var menuMouseX = canvasMouseX - this.menuX;
         var menuMouseY = canvasMouseY - this.menuY;
 
@@ -207,7 +207,7 @@ export class MainMenu {
         }
     }
 
-    isMouseOverReturnCommand(mouseX: number, mouseY: number) {
+    private isMouseOverReturnCommand(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverCommand(
             mouseX,
             mouseY,
@@ -217,7 +217,7 @@ export class MainMenu {
         );
     }
 
-    isMouseOverSettingsCommand(mouseX: number, mouseY: number) {
+    private isMouseOverSettingsCommand(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverCommand(
             mouseX,
             mouseY,
@@ -227,7 +227,7 @@ export class MainMenu {
         );
     }
 
-    isMouseOverExitCommand(mouseX: number, mouseY: number) {
+    private isMouseOverExitCommand(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverCommand(
             mouseX,
             mouseY,
@@ -238,7 +238,7 @@ export class MainMenu {
     }
 
     // settings menu
-    isMouseOverSettingsBackCommand(mouseX: number, mouseY: number) {
+    private isMouseOverSettingsBackCommand(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverCommand(
             mouseX,
             mouseY,
@@ -263,7 +263,7 @@ export class MainMenu {
         );
     }
 
-    closeMenu() {
+    private closeMenu(): void {
         console.log("closeMenu()");
         this.game.isMenuShown = false;
         this.currentMenuScreen = "none";
@@ -326,14 +326,14 @@ export class MainMenu {
     //     );
     // }
 
-    isMouseOverButton(
+    private isMouseOverButton (
         mouseX: number,
         mouseY: number,
         leftUpperX: number,
         topUpperY: number,
         commandWidth: number,
         commandHeight: number
-    ) {
+    ): boolean {
         // console.log("mouse x: " + mouseX      );
         // console.log("mouse y: " + mouseY      );
         // console.log("upper left x: " + leftUpperX        );
@@ -348,7 +348,7 @@ export class MainMenu {
         );
     }
 
-    renderSettingsMenu() {
+    private renderSettingsMenu(): void {
         this.game.ctx.fillStyle = "#000000";
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("Volume: ", this.convertToCanvasX(this.menuCenterX - 50), this.convertToCanvasY(50));
@@ -363,7 +363,7 @@ export class MainMenu {
         this.game.ctx.fillText("Back", this.convertToCanvasX(this.menuCenterX - 30), this.convertToCanvasY(230));
     }
 
-    showMenu(mouseX: any, mouseY: any) {
+    public showMenu(mouseX: any, mouseY: any): void {
         this.currentMenuScreen = "main";
         this.game.renderScene();
         this.showMainMenu(mouseX, mouseY);

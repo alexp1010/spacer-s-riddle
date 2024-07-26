@@ -14,11 +14,11 @@ export class ResourcesLoader {
         this.init();
     }
 
-    init() {
+    private init(): void {
         this.initImages();     
     }
 
-    loadResources() {
+    public loadResources(): void {
         this.game.ctx.fillStyle = "#000000";
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("Loading Resources... ", 50, 50);
@@ -27,13 +27,13 @@ export class ResourcesLoader {
         this.loadStartingScreen();
     }
 
-    loadStartingScreen() {
+    private loadStartingScreen(): void {
         this.game.startingScreenImage = new Image();
         this.game.startingScreenImage.src = "./images/starting screen.png";
-        this.game.startingScreenImage.addEventListener("load", this.dsd.bind(this));
+        this.game.startingScreenImage.addEventListener("load", this.startingScreenLoadHandler.bind(this));
     }
 
-    dsd(ev: Event): any {
+    private startingScreenLoadHandler(event: Event): void {
         this.game.ctx.clearRect(50, 50, 40, 100);
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("25%", 50, 90);
@@ -41,13 +41,13 @@ export class ResourcesLoader {
         this.loadScene1();
     }
 
-    loadScene1() {
+    private loadScene1() {
         this.game.boardComputerImage = new Image();
         this.game.boardComputerImage.src = "./images/a_man_standing_at_the_doors_614x614.png";
-        this.game.boardComputerImage.addEventListener("load", this.dsd2.bind(this));
+        this.game.boardComputerImage.addEventListener("load", this.scene1LoadHandler.bind(this));
     }
 
-    dsd2(ev: Event): any {
+    private scene1LoadHandler(event: Event): void {
         this.game.ctx.clearRect(50, 50, 40, 100);
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("50%", 50, 90);
@@ -55,13 +55,13 @@ export class ResourcesLoader {
         this.loadScene2();
     }
 
-    loadScene2 () {
+    private loadScene2(): void {
         this.game.menuIcon = new Image();
         this.game.menuIcon.src = "./images/menu_icon.png";
-        this.game.menuIcon.addEventListener("load", this.dsd3.bind(this));
+        this.game.menuIcon.addEventListener("load", this.scene2LoadHandler.bind(this));
     }
 
-    dsd3(ev: Event): any {
+    private scene2LoadHandler(event: Event): void {
         this.game.ctx.clearRect(50, 50, 40, 100);
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("75%", 50, 90);
@@ -69,13 +69,13 @@ export class ResourcesLoader {
         this.loadScene3();
     }
 
-    loadScene3 () {
+    private loadScene3(): void {
         this.game.menuImage = new Image();
         this.game.menuImage.src = "./images/menu_tablet_with_opacity.png";
-        this.game.menuImage.addEventListener("load", this.dsd4.bind(this));
+        this.game.menuImage.addEventListener("load", this.scene4LoadHandler.bind(this));
     }
 
-    dsd4(ev: Event): any {
+    private scene4LoadHandler(event: Event): void {
         this.game.ctx.clearRect(50, 50, 40, 100);
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("100%", 50, 90);
@@ -83,7 +83,7 @@ export class ResourcesLoader {
         this.game.beginGame();
     }
 
-    initImages() {
+    private initImages(): void {
         this.boardComputerImage = new Image();
         this.menuIcon = new Image();
         this.menuImage = new Image();

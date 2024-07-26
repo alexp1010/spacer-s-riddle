@@ -1,6 +1,6 @@
 export class Sound {
-    sound: HTMLAudioElement;
-    step = 0.1;
+    private sound: HTMLAudioElement;
+    private step = 0.1;
 
     constructor(src: string, document: Document) {
         this.sound = document.createElement("audio");
@@ -13,20 +13,20 @@ export class Sound {
         document.body.appendChild(this.sound);
     }
 
-    play() {
+    public play(): void {
         this.sound.volume = 1;
         this.sound.play();
     };
 
-    pause() {
+    public pause(): void {
         this.sound.pause();
     };
 
-    getVolume() {
+    public getVolume(): number {
         return this.sound.volume;
     }
 
-    getVolumeInPercentage() {
+    public getVolumeInPercentage(): string {
         var persentage = "0%";
 
         if (this.sound.volume >= 0 && this.sound.volume < 0.1) {
@@ -66,12 +66,12 @@ export class Sound {
         return persentage;
     }
 
-    setVolume(volume: number) {
+    public setVolume(volume: number): void {
         console.log("volume: " + this.sound.volume);
         this.sound.volume = volume;
     }
 
-    lesserVolume() {
+    public lesserVolume(): void {
         if (this.sound.volume > 0) {
             var newSoundVolume = this.sound.volume - this.step;
 
@@ -81,7 +81,7 @@ export class Sound {
         }
     }
 
-    growVolume() {
+    public growVolume(): void {
         if (this.sound.volume < 1) {
             var newSoundVolume = this.sound.volume + this.step;
 
