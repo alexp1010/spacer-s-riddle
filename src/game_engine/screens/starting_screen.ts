@@ -2,26 +2,26 @@ import { Game } from "../game";
 
 export class StartingScreen {
 
-    game: Game;
+    private game: Game;
 
-    startCommandWidth: number;
-    startCommandHeight: number;
-    startCommandPositionX: number;
-    startCommandPositionY: number;
-    settingsCommandWidth: number;
-    settingsCommandHeight: number;
-    settingsCommandPositionX: number;
-    settingsCommandPositionY: number;
-    credentialsCommandWidth: number;
-    credentialsCommandHeight: number;
-    credentialsCommandPositionX: number;
-    credentialsCommandPositionY: number;
-    soundOnCommandWidth: number;
-    soundOnCommandHeight: number;
-    soundOnCommandPositionX: number;
-    soundOnCommandPositionY: number;
+    private startCommandWidth: number;
+    private startCommandHeight: number;
+    private startCommandPositionX: number;
+    private startCommandPositionY: number;
+    private settingsCommandWidth: number;
+    private settingsCommandHeight: number;
+    private settingsCommandPositionX: number;
+    private settingsCommandPositionY: number;
+    private credentialsCommandWidth: number;
+    private credentialsCommandHeight: number;
+    private credentialsCommandPositionX: number;
+    private credentialsCommandPositionY: number;
+    private soundOnCommandWidth: number;
+    private soundOnCommandHeight: number;
+    private soundOnCommandPositionX: number;
+    private soundOnCommandPositionY: number;
 
-    isStartingScreenHighlightingOn: boolean;
+    private isStartingScreenHighlightingOn: boolean;
 
     constructor(game: Game) {
         this.game = game;
@@ -49,7 +49,7 @@ export class StartingScreen {
         this.isStartingScreenHighlightingOn = false;
     }
 
-    showScreen() {
+    public showScreen(): void {
         this.game.ctx.drawImage(this.game.startingScreenImage, 0, 0);
 
         this.game.ctx.fillStyle = "#000000";

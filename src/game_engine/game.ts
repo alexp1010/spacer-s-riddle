@@ -5,22 +5,22 @@ import { MainMenu } from "./menu/main_menu";
 
 export class Game {
 
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
-    canvasWidth: number;
-    canvasHeight: number;
-    boardComputerImage: HTMLImageElement;
+    public canvas: HTMLCanvasElement;
+    public ctx: CanvasRenderingContext2D;
+    private canvasWidth: number;
+    private canvasHeight: number;
+    public boardComputerImage: HTMLImageElement;
     // scene1Image;
     // scene2Image;
-    menuIcon: HTMLImageElement;
-    menuImage: HTMLImageElement;
-    gameZone: DOMRect;
-    isMenuShown: boolean;
-    menu: MainMenu;
-    resourcesLoader: ResourcesLoader;
-    startingScreenImage: HTMLImageElement;
-    startingScreen: StartingScreen;
-    isStartingScreenShown: boolean;
+    public menuIcon: HTMLImageElement;
+    public menuImage: HTMLImageElement;
+    public gameZone: DOMRect;
+    public isMenuShown: boolean;
+    private menu: MainMenu;
+    private resourcesLoader: ResourcesLoader;
+    public startingScreenImage: HTMLImageElement;
+    public startingScreen: StartingScreen;
+    public isStartingScreenShown: boolean;
 
     public gameSound: GameSound;
     private document: Document;
@@ -41,13 +41,13 @@ export class Game {
         this.canvasHeight = this.canvas.height;
         this.gameZone = this.canvas.getBoundingClientRect();
 
-        this.ctx.fillStyle = "#000000";
-        this.ctx.font = "30px Arial";
-        this.ctx.textBaseline = "bottom";
-        this.ctx.fillText(
-            "Broom Broom Brahrahm...",
-            50,
-            60);
+        // this.ctx.fillStyle = "#000000";
+        // this.ctx.font = "30px Arial";
+        // this.ctx.textBaseline = "bottom";
+        // this.ctx.fillText(
+        //     "Broom Broom Brahrahm...",
+        //     50,
+        //     60);
 
         this.startingScreen = new StartingScreen(this);
 
@@ -60,24 +60,24 @@ export class Game {
         this.isMenuShown = false;
     }
 
-    beginGame() {
+    public beginGame(): void {
         console.log("Begin game");
         this.startingScreen.showScreen();
         // this.showScreen();
         this.handleEvents();
     }
 
-    showScreen() {
+    public showScreen(): void {
         this.ctx.drawImage(this.boardComputerImage, 0, 0);
         this.ctx.drawImage(this.menuIcon, 10, 10);
     }
 
-    handleEvents() {
+    private handleEvents(): void {
         this.initMouseClickHandler();
         this.initMouseMoveHandler();
     }
 
-    initMouseClickHandler() {
+    private initMouseClickHandler(): void {
         this.canvas.addEventListener("click", this.handleMouseClick.bind(this));
     }
 
@@ -104,7 +104,7 @@ export class Game {
         }
     }
 
-    initMouseMoveHandler() {
+    private initMouseMoveHandler(): void {
         this.canvas.addEventListener("mousemove", this.handleMouseMove.bind(this));
     }
 

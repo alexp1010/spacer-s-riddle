@@ -7,32 +7,32 @@ export class GameSound {
     
     constructor() { }
 
-    loadBackgroundMusic(musicFileName: string, document: Document) {
+    public loadBackgroundMusic(musicFileName: string, document: Document): void {
         this.gameMusic = new Sound(musicFileName, document);
     }
 
-    setBackgroundMusicVolume(volume: number) {
+    private setBackgroundMusicVolume(volume: number): void {
         this.gameMusic.setVolume(volume);
     }
 
-    getBackgroundMusicVolume() {
+    public getBackgroundMusicVolume(): number {
         return this.gameMusic.getVolume();
     }
 
-    playBackgroundMusic() {
+    public playBackgroundMusic(): void {
         console.log("this.gameMusic: " + this.gameMusic);
         this.gameMusic.play();
     }
 
-    getVolumeInPercentage() {
+    public getVolumeInPercentage() {
         return this.gameMusic.getVolumeInPercentage();
     }
 
-    lesserVolume() {
+    public lesserVolume(): void {
         this.gameMusic.lesserVolume();
     }
 
-    growVolume() {
+    public growVolume(): void {
         this.gameMusic.growVolume();
     }
 }

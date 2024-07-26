@@ -11,35 +11,35 @@ export class MainMenu {
     private menuCenterY: number;
     private commandSpace: number;
     private menuTopMargin: number;
-    returnCommandPositionY;
-    returnCommandWidth;
-    returnCommandHeight;
-    settingsCommandWidth;
-    settingsCommandHeight;
-    settingsCommandPositionY;
-    exitCommandWidth;
-    exitCommandHeight;
-    exitCommandPositionY;
-    menuX;
-    menuY;
-    isSettingsHighlightingOn;
-    isMainMenuHighlightingOn;
+    private returnCommandPositionY: number;
+    private returnCommandWidth: number;
+    private returnCommandHeight: number;
+    private settingsCommandWidth: number;
+    private settingsCommandHeight: number;
+    private settingsCommandPositionY: number;
+    private exitCommandWidth: number;
+    private exitCommandHeight: number;
+    private exitCommandPositionY: number;
+    private menuX: number;
+    private menuY: number;
+    private isSettingsHighlightingOn: boolean;
+    private isMainMenuHighlightingOn: boolean;
 
     // settings
-    settingsBackCommandPositionY;
-    settingsBackCommandWidth;
-    settingsBackCommandHeight;
-    volumeDownButtonLeftX;
-    volumeDownButtonUpperY;
-    volumeDownButtonWidth;
-    volumeDownButtonHeight;
-    volumeUpButtonLeftX;
-    volumeUpButtonUpperY;
-    volumeUpButtonWidth;
-    volumeUpButtonHeight;
-    menuWidth: number;
-    menuHeight: number;
-    returnCommandPositionX: number;
+    private settingsBackCommandPositionY: number;
+    private settingsBackCommandWidth: number;
+    private settingsBackCommandHeight: number;
+    private volumeDownButtonLeftX: number;
+    private volumeDownButtonUpperY: number;
+    private volumeDownButtonWidth: number;
+    private volumeDownButtonHeight: number;
+    private volumeUpButtonLeftX: number;
+    private volumeUpButtonUpperY: number;
+    private volumeUpButtonWidth: number;
+    private volumeUpButtonHeight: number;
+    private menuWidth: number;
+    private menuHeight: number;
+    private returnCommandPositionX: number;
 
     constructor(game: Game) {
         this.game = game;
@@ -248,13 +248,13 @@ export class MainMenu {
         );
     }
 
-    isMouseOverCommand(
+    private isMouseOverCommand(
         mouseX: number,
         mouseY: number,
         commandPositionY: number,
         commandWidth: number,
         commandHeight: number
-    ) {
+    ): boolean {
         return (
             mouseX > this.getCommandLeftX(commandWidth) && 
             mouseX < this.getCommandRightX(commandWidth) &&
@@ -270,30 +270,30 @@ export class MainMenu {
         this.game.renderScene();
     }
 
-    showSettingsMenu() {
+    private showSettingsMenu(): void {
         this.currentMenuScreen = "settings";
         this.game.renderScene();
         this.showBlankMenu(this.game.menuImage);
         this.renderSettingsMenu();
     }
 
-    getCommandLeftX(commandWidth: number) {
+    private getCommandLeftX(commandWidth: number): number {
         return this.menuWidth / 2 - commandWidth / 2;
     }
 
-    getCommandRightX(commandWidth: number) {
+    private getCommandRightX(commandWidth: number): number {
         return this.menuWidth / 2 + commandWidth / 2;
     }
 
-    getCommandUpperY(commandY: number) {
+    private getCommandUpperY(commandY: number): number {
         return commandY;
     }
 
-    getCommandLowerY(commandY: number, commandHeight: number) {
+    private getCommandLowerY(commandY: number, commandHeight: number): number {
         return commandY + commandHeight;
     }
 
-    isMouseOverVolumeDownButton(mouseX: number, mouseY: number) {
+    private isMouseOverVolumeDownButton(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverButton(
             mouseX, 
             mouseY, 
@@ -304,7 +304,7 @@ export class MainMenu {
         );
     }
 
-    isMouseOverVolumeUpButton(mouseX: number, mouseY: number) {
+    private isMouseOverVolumeUpButton(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverButton(
             mouseX, 
             mouseY, 
@@ -369,7 +369,7 @@ export class MainMenu {
         this.showMainMenu(mouseX, mouseY);
     }
 
-    showMainMenu(mouseX: string | number, mouseY: string | number) {
+    private showMainMenu(mouseX: string | number, mouseY: string | number): void {
         this.showBlankMenu(this.game.menuImage);
 
         this.game.ctx.fillStyle = "#000000";
@@ -394,17 +394,17 @@ export class MainMenu {
         this.game.ctx.fillText("canvas.bottom: " + this.game.gameZone.bottom, this.convertToCanvasX(20), this.convertToCanvasY(300));
     }
 
-    showBlankMenu(image: CanvasImageSource) {
+    private showBlankMenu(image: CanvasImageSource): void {
         var menuLeftStartingX = this.game.gameZone.right / 2 - this.menuWidth / 2;
         var menuTopStartingY = this.game.gameZone.bottom / 2 - this.menuHeight / 2;
         this.game.ctx.drawImage(image, menuLeftStartingX, menuTopStartingY);
     }
 
-    convertToCanvasX(x: number) {
+    private convertToCanvasX(x: number): number {
         return this.menuX + x; 
     }
 
-    convertToCanvasY(y: number) {
+    private convertToCanvasY(y: number): number {
         return this.menuY + y; 
     }
 }

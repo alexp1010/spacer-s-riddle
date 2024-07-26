@@ -41,7 +41,7 @@ export class ResourcesLoader {
         this.loadScene1();
     }
 
-    private loadScene1() {
+    private loadScene1(): void {
         this.game.boardComputerImage = new Image();
         this.game.boardComputerImage.src = "./images/a_man_standing_at_the_doors_614x614.png";
         this.game.boardComputerImage.addEventListener("load", this.scene1LoadHandler.bind(this));
