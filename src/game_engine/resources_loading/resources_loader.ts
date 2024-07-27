@@ -70,6 +70,20 @@ export class ResourcesLoader {
     }
 
     private loadScene3(): void {
+        this.game.thoughtCloud = new Image();
+        this.game.thoughtCloud.src = "./images/thought_cloud.png";
+        this.game.thoughtCloud.addEventListener("load", this.scene3LoadHandler.bind(this));
+    }
+
+    private scene3LoadHandler(event: Event): void {
+        this.game.ctx.clearRect(50, 50, 40, 100);
+        this.game.ctx.font = "30px Arial";
+        this.game.ctx.fillText("75%", 50, 90);
+
+        this.loadScene4();
+    }
+
+    private loadScene4(): void {
         this.game.menuImage = new Image();
         this.game.menuImage.src = "./images/menu_tablet_with_opacity.png";
         this.game.menuImage.addEventListener("load", this.scene4LoadHandler.bind(this));

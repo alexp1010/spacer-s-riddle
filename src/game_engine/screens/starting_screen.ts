@@ -155,7 +155,7 @@ export class StartingScreen {
         // }
     }
     
-    isMouseOverStartCommand(mouseX: number, mouseY: number) {
+    private isMouseOverStartCommand(mouseX: number, mouseY: number): boolean {
         return this.isMouseOverCommand(
             mouseX,
             mouseY,

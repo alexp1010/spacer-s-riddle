@@ -14,6 +14,7 @@ export class Game {
     // scene2Image;
     public menuIcon: HTMLImageElement;
     public menuImage: HTMLImageElement;
+    public thoughtCloud: HTMLImageElement;
     public gameZone: DOMRect;
     public isMenuShown: boolean;
     private menu: MainMenu;
@@ -60,6 +61,7 @@ export class Game {
     public showScreen(): void {
         this.ctx.drawImage(this.boardComputerImage, 0, 0);
         this.ctx.drawImage(this.menuIcon, 10, 10);
+        this.ctx.drawImage(this.thoughtCloud, 300, 0);
     }
 
     private handleEvents(): void {
