@@ -35,22 +35,12 @@ export class Game {
 
         this.canvas = this.document.getElementById("background") as HTMLCanvasElement;
         this.ctx = this.canvas.getContext("2d");
-        this.canvas.width = 614;
+        this.canvas.width = 819;
         this.canvas.height = 614;
         this.canvasWidth = this.canvas.width;
         this.canvasHeight = this.canvas.height;
         this.gameZone = this.canvas.getBoundingClientRect();
-
-        // this.ctx.fillStyle = "#000000";
-        // this.ctx.font = "30px Arial";
-        // this.ctx.textBaseline = "bottom";
-        // this.ctx.fillText(
-        //     "Broom Broom Brahrahm...",
-        //     50,
-        //     60);
-
         this.startingScreen = new StartingScreen(this);
-
         this.resourcesLoader = new ResourcesLoader(this);
         this.resourcesLoader.loadResources();
 
@@ -63,7 +53,7 @@ export class Game {
     public beginGame(): void {
         console.log("Begin game");
         this.startingScreen.showScreen();
-        // this.showScreen();
+        // this.showScreen(); // what was it? was a movement and talks?
         this.handleEvents();
     }
 

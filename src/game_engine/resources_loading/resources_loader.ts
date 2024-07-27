@@ -29,7 +29,7 @@ export class ResourcesLoader {
 
     private loadStartingScreen(): void {
         this.game.startingScreenImage = new Image();
-        this.game.startingScreenImage.src = "./images/starting screen.png";
+        this.game.startingScreenImage.src = "./images/space_view.png";
         this.game.startingScreenImage.addEventListener("load", this.startingScreenLoadHandler.bind(this));
     }
 
@@ -43,7 +43,7 @@ export class ResourcesLoader {
 
     private loadScene1(): void {
         this.game.boardComputerImage = new Image();
-        this.game.boardComputerImage.src = "./images/a_man_standing_at_the_doors_614x614.png";
+        this.game.boardComputerImage.src = "./images/a_man_sitting_in_a_room.png";
         this.game.boardComputerImage.addEventListener("load", this.scene1LoadHandler.bind(this));
     }
 
