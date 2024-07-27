@@ -62,6 +62,9 @@ export class Game {
         this.ctx.drawImage(this.boardComputerImage, 0, 0);
         this.ctx.drawImage(this.menuIcon, 10, 10);
         this.ctx.drawImage(this.thoughtCloud, 300, 0);
+        this.ctx.font = "16px Arial";
+        this.ctx.fillText("Hmm, what was it?", 350, 70);
+        this.ctx.fillText("It seems that I heard some noise in the hall...", 350, 100);
     }
 
     private handleEvents(): void {
