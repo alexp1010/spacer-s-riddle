@@ -2,22 +2,21 @@ import { GameSound } from "./sound_engine/game_sound";
 import { ResourcesLoader } from "./resources_loading/resources_loader";
 import { StartingScreen } from "./screens/starting_screen";
 import { MainMenu } from "./menu/main_menu";
+import { ScenesManager } from "./scenes_manager/scenes_manager";
+import { Scenes } from "./scenes/scenes";
 
 export class Game {
-
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
     private canvasWidth: number;
     private canvasHeight: number;
     public boardComputerImage: HTMLImageElement;
-    // scene1Image;
-    // scene2Image;
     public menuIcon: HTMLImageElement;
     public menuImage: HTMLImageElement;
     public thoughtCloud: HTMLImageElement;
     public gameZone: DOMRect;
     public isMenuShown: boolean;
-    private menu: MainMenu;
+    public menu: MainMenu;
     private resourcesLoader: ResourcesLoader;
     public startingScreenImage: HTMLImageElement;
     public startingScreen: StartingScreen;
@@ -25,6 +24,8 @@ export class Game {
 
     public gameSound: GameSound;
     private document: Document;
+    private scenesManager: ScenesManager;
+    public isGameActive: boolean;
 
     constructor(document: Document) {
         this.document = document;
@@ -45,26 +46,26 @@ export class Game {
         this.resourcesLoader = new ResourcesLoader(this);
         this.resourcesLoader.loadResources();
 
+        this.isGameActive = false;
+        this.scenesManager = new ScenesManager(this);
         this.isStartingScreenShown = true;
 
         this.menu = new MainMenu(this);
         this.isMenuShown = false;
     }
 
-    public beginGame(): void {
-        console.log("Begin game");
+    public loadGame(): void {
+        console.log("Load game");
         this.startingScreen.showScreen();
-        // this.showScreen(); // what was it? was a movement and talks?
         this.handleEvents();
     }
 
-    public showScreen(): void {
-        this.ctx.drawImage(this.boardComputerImage, 0, 0);
-        this.ctx.drawImage(this.menuIcon, 10, 10);
-        this.ctx.drawImage(this.thoughtCloud, 300, 0);
-        this.ctx.font = "16px Arial";
-        this.ctx.fillText("Hmm, what was it?", 350, 70);
-        this.ctx.fillText("It seems that I heard some noise in the hall...", 350, 100);
+    public beginGame(): void {
+        this.scenesManager.setCurrentScene(Scenes.scene1);
+        this.scenesManager.showCurrentScene();
+        this.isGameActive = true;
+
+        this.gameSound.setMusic();
     }
 
     private handleEvents(): void {
@@ -89,10 +90,15 @@ export class Game {
 
         if (this.isStartingScreenShown) {
             this.startingScreen.handleMouseClickEvents(canvasMouseX, canvasMouseY);
-        } 
-        else if (!this.isMenuShown && this.isMouseInsideMenuIcon(canvasMouseX, canvasMouseY)) {
-            this.isMenuShown = true;
-            this.menu.showMenu(mouseX, mouseY);
+        }
+        else if (this.isGameActive) {
+            this.scenesManager.handleMouseClickEvents(canvasMouseX, canvasMouseY);
+            
+            if (!this.isMenuShown && this.isMouseInsideMenuIcon(canvasMouseX, canvasMouseY)) {
+                this.isGameActive = false;
+                this.isMenuShown = true;
+                this.menu.showMenu(mouseX, mouseY);
+            }
         }
         else if (this.isMenuShown) {
             this.menu.handleMouseClickEvents(canvasMouseX, canvasMouseY);
@@ -112,18 +118,18 @@ export class Game {
         if (this.isStartingScreenShown) {
             this.startingScreen.handleMouseMoveEvents(canvasMouseX, canvasMouseY);
         }
+
+        if (this.isGameActive) {
+            this.scenesManager.handleMouseMoveEvents(canvasMouseX, canvasMouseY);
+        }
         
         if (this.isMenuShown) {
             this.menu.handleMouseMoveEvents(canvasMouseX, canvasMouseY);
         }
     }
     
-    public renderScene(): void {
-        this.ctx.drawImage(this.boardComputerImage, 0, 0);
-        
-        if (!this.isMenuShown) {
-            this.ctx.drawImage(this.menuIcon, 10, 10);
-        }
+    public renderCurrentScene(): void {
+        this.scenesManager.showCurrentScene();
     }
 
     private isMouseInsideMenuIcon(mouseX: number, mouseY: number): boolean {

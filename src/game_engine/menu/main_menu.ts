@@ -90,6 +90,7 @@ export class MainMenu {
             this.isMouseOverReturnCommand(menuMouseX, menuMouseY)
         ) {
             this.closeMenu();
+            this.game.isGameActive = true;
         }
         else if (
             this.currentMenuScreen === "main" &&
@@ -98,6 +99,7 @@ export class MainMenu {
             this.closeMenu();
             this.game.isStartingScreenShown = true;
             this.game.startingScreen.showScreen();
+            this.game.gameSound.setMusic2();
         }
         else if (
             this.currentMenuScreen === "main" &&
@@ -113,7 +115,7 @@ export class MainMenu {
                     this.game.gameSound.lesserVolume();
                 }
 
-                this.game.renderScene();
+                this.game.renderCurrentScene();
                 this.showBlankMenu(this.game.menuImage);
 
                 this.renderSettingsMenu();
@@ -124,7 +126,7 @@ export class MainMenu {
                     this.game.gameSound.growVolume();
                 }
 
-                this.game.renderScene();
+                this.game.renderCurrentScene();
                 this.showBlankMenu(this.game.menuImage);
 
                 this.renderSettingsMenu();
@@ -132,7 +134,7 @@ export class MainMenu {
             else if (this.isMouseOverSettingsBackCommand(menuMouseX, menuMouseY)) {
                 this.currentMenuScreen = "main";
 
-                this.game.renderScene();
+                this.game.renderCurrentScene();
                 this.showMainMenu(menuMouseX, menuMouseX);
             }
         }
@@ -176,7 +178,7 @@ export class MainMenu {
             }
             else {
                 if (this.isMainMenuHighlightingOn) {
-                    this.game.renderScene();
+                    this.game.renderCurrentScene();
                     this.showMainMenu(menuMouseX, menuMouseY);
 
                     this.isMainMenuHighlightingOn = false;
@@ -198,7 +200,7 @@ export class MainMenu {
             else {
                 if (this.isSettingsHighlightingOn) { 
                     this.isSettingsHighlightingOn = false; 
-                    this.game.renderScene();
+                    this.game.renderCurrentScene();
                     this.showBlankMenu(this.game.menuImage);
 
                     this.renderSettingsMenu();
@@ -267,12 +269,12 @@ export class MainMenu {
         console.log("closeMenu()");
         this.game.isMenuShown = false;
         this.currentMenuScreen = "none";
-        this.game.renderScene();
+        this.game.renderCurrentScene();
     }
 
     private showSettingsMenu(): void {
         this.currentMenuScreen = "settings";
-        this.game.renderScene();
+        this.game.renderCurrentScene();
         this.showBlankMenu(this.game.menuImage);
         this.renderSettingsMenu();
     }
@@ -365,7 +367,7 @@ export class MainMenu {
 
     public showMenu(mouseX: any, mouseY: any): void {
         this.currentMenuScreen = "main";
-        this.game.renderScene();
+        this.game.renderCurrentScene();
         this.showMainMenu(mouseX, mouseY);
     }
 

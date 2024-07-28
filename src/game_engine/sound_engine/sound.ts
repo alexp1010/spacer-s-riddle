@@ -13,6 +13,10 @@ export class Sound {
         document.body.appendChild(this.sound);
     }
 
+    public setMusic(musicName: string): void {
+        this.sound.src = musicName;
+    }
+
     public play(): void {
         this.sound.volume = 1;
         this.sound.play();

@@ -91,7 +91,7 @@ export class StartingScreen {
         ) {
             console.log("start...");
             this.game.isStartingScreenShown = false;
-            this.game.showScreen();
+            this.game.beginGame();
         }
     }
 

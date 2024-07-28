@@ -94,7 +94,7 @@ export class ResourcesLoader {
         this.game.ctx.font = "30px Arial";
         this.game.ctx.fillText("100%", 50, 90);
 
-        this.game.beginGame();
+        this.game.loadGame();
     }
 
     private initImages(): void {
