@@ -13,3 +13,4 @@ To run:
 open index.html
 
 Images generated through https://gencraft.com/
+Audio generated through https://ilovesong.ai/
