@@ -1,5 +1,4 @@
 import { Game } from "../game";
-import { MainMenu } from "../menu/main_menu";
 import { Scene } from "../scenes/scene";
 import { Scene1 } from "../scenes/scene1";
 import { Scenes } from "../scenes/scenes";

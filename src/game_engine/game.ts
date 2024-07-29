@@ -140,4 +140,14 @@ export class Game {
             mouseY < this.menuIcon.height + 10
         );
     }
+
+    public showStartingScreen(): void {
+        this.isStartingScreenShown = true;
+        this.startingScreen.showScreen();
+        this.gameSound.setMusic2();
+    }
+
+    public returnToGame(): void {
+        this.isGameActive = true;
+    }
 }

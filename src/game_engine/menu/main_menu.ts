@@ -1,10 +1,15 @@
 import { Game } from "../game";
+import { MenuScreens } from "./screens";
+import { MainMenuScreen } from "./screens/main_menu_screen";
+import { MenuScreen } from "./screens/menu_screen";
+import { SettingsMenuScreen } from "./screens/settings_menu_screen";
 
 export class MainMenu {
 
     private game: Game;
     // gameZone;
-    private currentMenuScreen;
+    private currentMenuScreenName: string;
+    private currentMenuScreen: MenuScreen;
     private menuLeftStartingX: number;
     private menuTopStartingY: number;
     private menuCenterX: number;
@@ -29,21 +34,16 @@ export class MainMenu {
     private settingsBackCommandPositionY: number;
     private settingsBackCommandWidth: number;
     private settingsBackCommandHeight: number;
-    private volumeDownButtonLeftX: number;
-    private volumeDownButtonUpperY: number;
-    private volumeDownButtonWidth: number;
-    private volumeDownButtonHeight: number;
-    private volumeUpButtonLeftX: number;
-    private volumeUpButtonUpperY: number;
-    private volumeUpButtonWidth: number;
-    private volumeUpButtonHeight: number;
     private menuWidth: number;
     private menuHeight: number;
     private returnCommandPositionX: number;
 
+    private mainMenuScreen: MenuScreen;
+    private settingsMenuScreen: MenuScreen;
+
     constructor(game: Game) {
         this.game = game;
-        this.currentMenuScreen = "none"; // "main", "settings"
+        this.currentMenuScreenName = "none"; // "main", "settings"
         this.menuWidth = 290;
         this.menuHeight = 498;
         this.menuLeftStartingX = this.game.gameZone.right / 2 - this.menuWidth / 2;
@@ -71,186 +71,25 @@ export class MainMenu {
         this.settingsBackCommandWidth = 80;
         this.settingsBackCommandHeight = 30;
 
-        this.volumeDownButtonLeftX = 32;
-        this.volumeDownButtonUpperY = 75;
-        this.volumeDownButtonWidth = 20;
-        this.volumeDownButtonHeight = 20;
-        this.volumeUpButtonLeftX = 157;
-        this.volumeUpButtonUpperY = 73;
-        this.volumeUpButtonWidth = 20;
-        this.volumeUpButtonHeight = 20;
+        this.mainMenuScreen = new MainMenuScreen(this.game, this, this.menuX, this.menuY, this.menuTopMargin, this.commandSpace);
+        this.settingsMenuScreen = new SettingsMenuScreen(this.game, this, this.menuX, this.menuY, this.menuCenterX);
     }
 
     public handleMouseClickEvents(canvasMouseX: number, canvasMouseY: number): void {
-        var menuMouseX = canvasMouseX - this.menuX;
-        var menuMouseY = canvasMouseY - this.menuY;
-
-        if (
-            this.currentMenuScreen === "main" &&
-            this.isMouseOverReturnCommand(menuMouseX, menuMouseY)
-        ) {
-            this.closeMenu();
-            this.game.isGameActive = true;
-        }
-        else if (
-            this.currentMenuScreen === "main" &&
-            this.isMouseOverExitCommand(menuMouseX, menuMouseY)
-        ) {
-            this.closeMenu();
-            this.game.isStartingScreenShown = true;
-            this.game.startingScreen.showScreen();
-            this.game.gameSound.setMusic2();
-        }
-        else if (
-            this.currentMenuScreen === "main" &&
-            this.isMouseOverSettingsCommand(menuMouseX, menuMouseY)
-        ) {
-            this.showSettingsMenu();
-        }
-        else if (this.currentMenuScreen === "settings") {
-            console.log("setting menu");
-            if (this.isMouseOverVolumeDownButton(menuMouseX, menuMouseY)) {
-
-                if (this.game.gameSound.getBackgroundMusicVolume() > 0) {
-                    this.game.gameSound.lesserVolume();
-                }
-
-                this.game.renderCurrentScene();
-                this.showBlankMenu(this.game.menuImage);
-
-                this.renderSettingsMenu();
-            }
-            else if (this.isMouseOverVolumeUpButton(menuMouseX, menuMouseY)) {
-
-                if (this.game.gameSound.getBackgroundMusicVolume() < 1) {
-                    this.game.gameSound.growVolume();
-                }
-
-                this.game.renderCurrentScene();
-                this.showBlankMenu(this.game.menuImage);
-
-                this.renderSettingsMenu();
-            }
-            else if (this.isMouseOverSettingsBackCommand(menuMouseX, menuMouseY)) {
-                this.currentMenuScreen = "main";
-
-                this.game.renderCurrentScene();
-                this.showMainMenu(menuMouseX, menuMouseX);
-            }
-        }
+        // var menuMouseX = canvasMouseX - this.menuX;
+        // var menuMouseY = canvasMouseY - this.menuY;
+        
+        this.currentMenuScreen.handleMouseClickEvents(canvasMouseX, canvasMouseY);
     }
 
     public handleMouseMoveEvents(canvasMouseX: number, canvasMouseY: number): void {
-        var menuMouseX = canvasMouseX - this.menuX;
-        var menuMouseY = canvasMouseY - this.menuY;
+        // var menuMouseX = canvasMouseX - this.menuX;
+        // var menuMouseY = canvasMouseY - this.menuY;
 
-        if (this.currentMenuScreen === "main") {
-            if (this.isMouseOverReturnCommand(menuMouseX, menuMouseY)) {
-                this.isMainMenuHighlightingOn = true;
-                this.game.ctx.strokeStyle = "black";
-                this.game.ctx.lineWidth = 2;
-                this.game.ctx.strokeRect(
-                    this.menuX + this.getCommandLeftX(this.returnCommandWidth) - 2,
-                    this.menuY + this.getCommandUpperY(this.returnCommandPositionY),
-                    this.returnCommandWidth + 6,
-                    this.returnCommandHeight + 8
-                );
-            } else if (this.isMouseOverSettingsCommand(menuMouseX, menuMouseY)) {
-                this.isMainMenuHighlightingOn = true;
-                this.game.ctx.strokeStyle = "black";
-                this.game.ctx.lineWidth = 2;
-                this.game.ctx.strokeRect(
-                    this.menuX + this.getCommandLeftX(this.settingsCommandWidth) - 2,
-                    this.menuY + this.getCommandUpperY(this.settingsCommandPositionY),
-                    this.settingsCommandWidth + 6,
-                    this.settingsCommandHeight + 8
-                );
-            } else if (this.isMouseOverExitCommand(menuMouseX, menuMouseY)) {
-                this.isMainMenuHighlightingOn = true;
-                this.game.ctx.strokeStyle = "black";
-                this.game.ctx.lineWidth = 2;
-                this.game.ctx.strokeRect(
-                    this.menuX + this.getCommandLeftX(this.exitCommandWidth) - 2,
-                    this.menuY + this.getCommandUpperY(this.exitCommandPositionY),
-                    this.exitCommandWidth + 6,
-                    this.exitCommandHeight + 8
-                );
-            }
-            else {
-                if (this.isMainMenuHighlightingOn) {
-                    this.game.renderCurrentScene();
-                    this.showMainMenu(menuMouseX, menuMouseY);
-
-                    this.isMainMenuHighlightingOn = false;
-                }
-            }
-        }
-        else if (this.currentMenuScreen == "settings") {
-            if (this.isMouseOverSettingsBackCommand(menuMouseX, menuMouseY)) {
-                this.isSettingsHighlightingOn = true;
-                this.game.ctx.strokeStyle = "black";
-                this.game.ctx.lineWidth = 2;
-                this.game.ctx.strokeRect(
-                    this.menuX + this.getCommandLeftX(this.settingsBackCommandWidth) - 2,
-                    this.menuY + this.getCommandUpperY(this.settingsBackCommandPositionY),
-                    this.settingsBackCommandWidth + 6,
-                    this.settingsBackCommandHeight + 8
-                );
-            }
-            else {
-                if (this.isSettingsHighlightingOn) { 
-                    this.isSettingsHighlightingOn = false; 
-                    this.game.renderCurrentScene();
-                    this.showBlankMenu(this.game.menuImage);
-
-                    this.renderSettingsMenu();
-                }
-            }
-        }
+        this.currentMenuScreen.handleMouseMoveEvents(canvasMouseX, canvasMouseY);
     }
 
-    private isMouseOverReturnCommand(mouseX: number, mouseY: number): boolean {
-        return this.isMouseOverCommand(
-            mouseX,
-            mouseY,
-            this.returnCommandPositionY,
-            this.returnCommandWidth,
-            this.returnCommandHeight
-        );
-    }
-
-    private isMouseOverSettingsCommand(mouseX: number, mouseY: number): boolean {
-        return this.isMouseOverCommand(
-            mouseX,
-            mouseY,
-            this.settingsCommandPositionY,
-            this.settingsCommandWidth,
-            this.settingsCommandHeight
-        );
-    }
-
-    private isMouseOverExitCommand(mouseX: number, mouseY: number): boolean {
-        return this.isMouseOverCommand(
-            mouseX,
-            mouseY,
-            this.exitCommandPositionY,
-            this.exitCommandWidth,
-            this.exitCommandHeight
-        );
-    }
-
-    // settings menu
-    private isMouseOverSettingsBackCommand(mouseX: number, mouseY: number): boolean {
-        return this.isMouseOverCommand(
-            mouseX,
-            mouseY,
-            this.settingsBackCommandPositionY,
-            this.settingsBackCommandWidth,
-            this.settingsBackCommandHeight
-        );
-    }
-
-    private isMouseOverCommand(
+    public isMouseOverCommand(
         mouseX: number,
         mouseY: number,
         commandPositionY: number,
@@ -265,68 +104,35 @@ export class MainMenu {
         );
     }
 
-    private closeMenu(): void {
+    public closeMenu(): void {
         console.log("closeMenu()");
         this.game.isMenuShown = false;
-        this.currentMenuScreen = "none";
+        this.currentMenuScreenName = "none";
         this.game.renderCurrentScene();
     }
 
-    private showSettingsMenu(): void {
-        this.currentMenuScreen = "settings";
+    public showSettingsMenu(): void {
+        this.currentMenuScreenName = "settings";
         this.game.renderCurrentScene();
         this.showBlankMenu(this.game.menuImage);
-        this.renderSettingsMenu();
+        this.getCurrentMenuScreen().showMenu(0, 0);
     }
 
-    private getCommandLeftX(commandWidth: number): number {
+    public getCommandLeftX(commandWidth: number): number {
         return this.menuWidth / 2 - commandWidth / 2;
     }
 
-    private getCommandRightX(commandWidth: number): number {
+    public getCommandRightX(commandWidth: number): number {
         return this.menuWidth / 2 + commandWidth / 2;
     }
 
-    private getCommandUpperY(commandY: number): number {
+    public getCommandUpperY(commandY: number): number {
         return commandY;
     }
 
-    private getCommandLowerY(commandY: number, commandHeight: number): number {
+    public getCommandLowerY(commandY: number, commandHeight: number): number {
         return commandY + commandHeight;
     }
-
-    private isMouseOverVolumeDownButton(mouseX: number, mouseY: number): boolean {
-        return this.isMouseOverButton(
-            mouseX, 
-            mouseY, 
-            this.volumeDownButtonLeftX, 
-            this.volumeDownButtonUpperY, 
-            this.volumeDownButtonWidth, 
-            this.volumeDownButtonHeight
-        );
-    }
-
-    private isMouseOverVolumeUpButton(mouseX: number, mouseY: number): boolean {
-        return this.isMouseOverButton(
-            mouseX, 
-            mouseY, 
-            this.volumeUpButtonLeftX, 
-            this.volumeUpButtonUpperY, 
-            this.volumeUpButtonWidth, 
-            this.volumeUpButtonHeight
-        );
-    }
-
-    // isMouseOverBackButton(mouseX, mouseY) {
-    //     return this.isMouseOverButton(
-    //         mouseX, 
-    //         mouseY, 
-    //         this.volumeUpButtonLeftX, 
-    //         this.volumeUpButtonUpperY, 
-    //         this.volumeUpButtonWidth, 
-    //         this.volumeUpButtonHeight
-    //     );
-    // }
 
     private isMouseOverButton (
         mouseX: number,
@@ -336,12 +142,6 @@ export class MainMenu {
         commandWidth: number,
         commandHeight: number
     ): boolean {
-        // console.log("mouse x: " + mouseX      );
-        // console.log("mouse y: " + mouseY      );
-        // console.log("upper left x: " + leftUpperX        );
-        // console.log("upper top y: " + topUpperY        );
-        // console.log("return lower y: " +  this.getCommandLowerY(menuY, commandPositionY, commandHeight)        );
-
         return (
             mouseX > leftUpperX &&
             mouseX < leftUpperX + commandWidth &&
@@ -350,63 +150,51 @@ export class MainMenu {
         );
     }
 
-    private renderSettingsMenu(): void {
-        this.game.ctx.fillStyle = "#000000";
-        this.game.ctx.font = "30px Arial";
-        this.game.ctx.fillText("Volume: ", this.convertToCanvasX(this.menuCenterX - 50), this.convertToCanvasY(50));
-        this.game.ctx.fillText("-", this.convertToCanvasX(30), this.convertToCanvasY(100));
-        this.game.ctx.strokeRect(this.convertToCanvasX(25), this.convertToCanvasY(82), 20, 20);
-
-        this.game.ctx.fillText(this.game.gameSound.getVolumeInPercentage(), this.convertToCanvasX(70), this.convertToCanvasY(102));
-
-        this.game.ctx.fillText("+", this.convertToCanvasX(167), this.convertToCanvasY(103));
-        this.game.ctx.strokeRect(this.convertToCanvasX(166), this.convertToCanvasY(82), 20, 20);
-
-        this.game.ctx.fillText("Back", this.convertToCanvasX(this.menuCenterX - 30), this.convertToCanvasY(230));
-    }
-
-    public showMenu(mouseX: any, mouseY: any): void {
-        this.currentMenuScreen = "main";
+    public showMenu(mouseX: number, mouseY: number): void {
+        this.setCurrentMenuScreen(MenuScreens.main);
         this.game.renderCurrentScene();
-        this.showMainMenu(mouseX, mouseY);
+        this.currentMenuScreen.showMenu(mouseX, mouseY);
     }
 
-    private showMainMenu(mouseX: string | number, mouseY: string | number): void {
-        this.showBlankMenu(this.game.menuImage);
-
-        this.game.ctx.fillStyle = "#000000";
-        this.game.ctx.font = "30px Arial";
-        this.game.ctx.fillText(
-            "Return",
-            this.convertToCanvasX(this.getCommandLeftX(this.returnCommandWidth)),
-            this.convertToCanvasY(this.getCommandLowerY(this.returnCommandPositionY, this.returnCommandHeight)));
-        this.game.ctx.fillText(
-            "Settings",
-            this.convertToCanvasX(this.getCommandLeftX(this.settingsCommandWidth)),
-            this.convertToCanvasY(this.getCommandLowerY(this.settingsCommandPositionY, this.settingsCommandHeight)));
-        this.game.ctx.fillText(
-            "Exit",
-            this.convertToCanvasX(this.getCommandLeftX(this.exitCommandWidth)),
-            this.convertToCanvasY(this.getCommandLowerY(this.exitCommandPositionY, this.exitCommandHeight)));
-
-        this.game.ctx.font = "16px Arial";
-        this.game.ctx.fillText("x: " + mouseX, this.convertToCanvasX(20), this.convertToCanvasY(200));
-        this.game.ctx.fillText("y: " + mouseY, this.convertToCanvasX(110), this.convertToCanvasY(200));
-        this.game.ctx.fillText("canvas.rigth: " + this.game.gameZone.right, this.convertToCanvasX(20), this.convertToCanvasY(250));
-        this.game.ctx.fillText("canvas.bottom: " + this.game.gameZone.bottom, this.convertToCanvasX(20), this.convertToCanvasY(300));
-    }
-
-    private showBlankMenu(image: CanvasImageSource): void {
+    public showBlankMenu(image: CanvasImageSource): void {
         var menuLeftStartingX = this.game.gameZone.right / 2 - this.menuWidth / 2;
         var menuTopStartingY = this.game.gameZone.bottom / 2 - this.menuHeight / 2;
         this.game.ctx.drawImage(image, menuLeftStartingX, menuTopStartingY);
     }
 
-    private convertToCanvasX(x: number): number {
+    public convertToCanvasX(x: number): number {
         return this.menuX + x; 
     }
 
-    private convertToCanvasY(y: number): number {
+    public convertToCanvasY(y: number): number {
         return this.menuY + y; 
+    }
+
+    public setCurrentMenuScreen(menuScreenName: string): void {
+        this.currentMenuScreen = this.getSceneByName(menuScreenName);
+    }
+
+    private getSceneByName(menuScreenName: string): MenuScreen {
+        let screen: MenuScreen;
+
+        switch (menuScreenName) {
+            case MenuScreens.main: {
+                screen = this.mainMenuScreen;
+                break;
+            }
+            case MenuScreens.settings: {
+                screen = this.settingsMenuScreen;
+                break;
+            }
+            default: {
+                screen = this.mainMenuScreen;
+            }
+        }
+
+        return screen;
+    }
+
+    public getCurrentMenuScreen(): MenuScreen {
+        return this.currentMenuScreen;
     }
 }
